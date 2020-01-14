@@ -11,7 +11,11 @@ class AuthenticationController < ApplicationController
           user_id: @user.id,
           username: @user.username,
         }, secret_key )
-        render json: {token: token}
+        render json: {
+          token: token, 
+          user_id: @user.id, 
+          username: @user.username
+        }
     else
         render json: { error: 'try again' }, status: :unauthorized
     end
