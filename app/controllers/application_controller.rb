@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
       render status: :unauthorized
     else
       token = authorization_header.split(' ')[1]
-      secret_key = Rails.application.secrets.secret_key_base[0]
+      secret_key = Rails.env.production? ? ENV["SECRET_KEY_BASE"] : Rails .application.secrets.secret_key_base[0]
       decoded_token = JWT.decode(token,secret_key)[0]
 
       @user = User.find(decoded_token['user_id'])
