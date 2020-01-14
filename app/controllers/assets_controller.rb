@@ -1,5 +1,6 @@
 class AssetsController < ApplicationController
   before_action :set_asset, only: [:show, :update, :destroy]
+  before_action :authenticate, only: [:create]
 
   def index
     @assets = Asset.all
@@ -12,13 +13,14 @@ class AssetsController < ApplicationController
   end
 
   def create
-    @asset = Asset.new(asset_params)
+      @asset = Asset.create(
+        title: params[:title],
+        resource_url: params[:resource_url],
+        social_link: params[:social_link],
+        website: params[:website],
+      )
 
-    if @asset.save
       render json: @asset, status: :created, location: @asset
-    else
-      render json: @asset.errors, status: :unprocessable_entity
-    end
   end
 
   def update
